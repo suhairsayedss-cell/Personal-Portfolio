@@ -3,25 +3,332 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Space-separated RGB channels so Tailwind can apply /opacity modifiers */
+  --background: 5 6 10;
+  --foreground: 237 237 237;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-family: var(--font-geist-sans), system-ui, Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* ==========================================================================
+   Horizon hero section
+   Dark, futuristic hero with a Three.js starfield background and three
+   scroll-driven title frames (VISION / STRATEGY / IMPACT).
+   ========================================================================== */
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  color: #fff;
+  z-index: 2;
+}
+
+/* The Three.js canvas sits fixed behind everything while the text frames
+   scroll over it. */
+.hero-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Each full-screen frame */
+.hero-content,
+.content-section {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+/* Big gradient title */
+.hero-title {
+  margin: 0;
+  font-size: clamp(4rem, 16vw, 13rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  /* Crisp, flat red-orange fill — no glow (matches the Horizon reference) */
+  color: #ff4b42;
+  /* Smoothly ease the hover enlarge + glow in and out */
+  transition: transform 0.4s ease, text-shadow 0.4s ease;
+}
+
+/* On hover: very slightly enlarge and add a soft glow (like the template) */
+.hero-title:hover {
+  transform: scale(1.04);
+  text-shadow:
+    0 0 25px rgba(255, 75, 66, 0.55),
+    0 0 55px rgba(255, 60, 40, 0.35);
+}
+
+/* About-section overlay words reuse the exact hero-title hover for a
+   consistent enlarge + glow interaction. inline-block so the text scales
+   around its own center rather than the full column width. */
+.overlay-title {
+  display: inline-block;
+  transition: transform 0.4s ease, text-shadow 0.4s ease;
+}
+
+.overlay-title:hover {
+  transform: scale(1.04);
+}
+
+/* About-section keywords: slightly bold, with a hover accent on the name
+   and custom Apple-emoji cursors on strategist / coffee / playlist. */
+.kw {
+  font-weight: 600;
+}
+
+.kw-name {
+  font-weight: 600;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.kw-name:hover {
+  color: #ff4b42;
+  text-shadow: 0 0 18px rgba(255, 75, 66, 0.5);
+}
+
+/* Each letter is its own inline-block so GSAP can stagger them in.
+   Solid color and text-shadow inherit from .hero-title, so no per-letter
+   treatment is needed here. */
+.title-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.hero-subtitle {
+  margin-top: 1.75rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+}
+
+.subtitle-line {
+  margin: 0.2rem 0;
+}
+
+/* Left-side vertical label */
+.side-menu {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-icon span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.35em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Bottom-center scroll / progress indicator */
+.scroll-progress {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scroll-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.progress-track {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c084fc, #60a5fa, #ff4b42);
+  transition: width 0.1s linear;
+}
+
+.section-counter {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 640px) {
+  .side-menu {
+    left: 1rem;
+  }
+  .progress-track {
+    width: 130px;
+  }
+}
+
+/* ==========================================================================
+   Quote section (mouse-beam + typewriter)
+   ========================================================================== */
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Typewriter blinking caret (red-orange to tie into the beam) */
+.type-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: #ff4b42;
+  animation: blink 0.9s infinite;
+}
+
+/* Typed phrase accent (purple) */
+.typed-accent {
+  color: #c084fc;
+  font-weight: 600;
+}
+
+/* Ambient glow that sits BELOW the section seam and blooms in gently.
+   The About section above is opaque (z-30) and paints over anything that
+   reaches up to the seam, so keeping the glow entirely below the seam — and
+   fully transparent at its top edge — leaves the seam a smooth pure black
+   (red-orange melting into purple lower down, around the quote content). */
+.quote-glow-top {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 560px;
+  /* Vertical radius = half the height, so the glow fades fully to transparent
+     AT the top/bottom edges — no rectangular hard line. Its top edge sits well
+     below the seam, so the transition into black stays clean. */
+  background: radial-gradient(
+    ellipse 780px 280px at 50% 50%,
+    rgba(255, 75, 66, 0.14) 0%,
+    rgba(168, 85, 247, 0.1) 48%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Faint decorative grid */
+.quote-grid-bg {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  opacity: 0.12;
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+}
+
+/* Soft edge fade on the bordered box */
+.quote-box-mask {
+  -webkit-mask-image: radial-gradient(800rem 96rem at center, white, transparent);
+  mask-image: radial-gradient(800rem 96rem at center, white, transparent);
+}
+
+/* ==========================================================================
+   Clients section (flat white logos)
+   ========================================================================== */
+
+/* Flat white logo icons. Rest slightly dimmed; on hover they brighten and
+   gently enlarge — the same enlarge interaction used on "make it matter". */
+.client-logo {
+  max-height: 2.75rem;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
+  opacity: 0.65;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.client-logo:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   CTA "Available for work" status dot — a bright green blink with a pulsing glow
+   ========================================================================== */
+@keyframes statusBlink {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow:
+      0 0 6px 2px rgba(34, 197, 94, 0.9),
+      0 0 14px 5px rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 3px 1px rgba(34, 197, 94, 0.45);
+  }
+}
+
+.status-dot {
+  animation: statusBlink 1.3s ease-in-out infinite;
 }

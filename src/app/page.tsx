@@ -1,9 +1,23 @@
+import { DemoOne } from "@/components/ui/demo";
+import MinimalistHeroDemo from "@/components/ui/minimalist-hero-demo";
+import QuoteSection from "@/components/ui/quote-section";
+import ClientsSection from "@/components/ui/clients-section";
+import CaseStudiesSection from "@/components/ui/case-studies-section";
+import { RevealImageList } from "@/components/ui/reveal-images";
+import TestimonialsSection from "@/components/ui/testimonial";
+import CtaSection from "@/components/ui/cta-section";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-pink-900 px-6">
-      <h1 className="bg-gradient-to-r from-purple-300 via-blue-200 to-pink-300 bg-clip-text text-center text-5xl font-extrabold tracking-tight text-transparent sm:text-7xl">
-        Mohamed Gous Sayed
-      </h1>
-    </main>
+    <>
+      <DemoOne />
+      <MinimalistHeroDemo />
+      <QuoteSection />
+      <RevealImageList />
+      <ClientsSection />
+      <CaseStudiesSection />
+      <TestimonialsSection />
+      <CtaSection />
+    </>
   );
 }

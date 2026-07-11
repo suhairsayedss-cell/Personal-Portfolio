@@ -3,7 +3,32 @@
     "allow": [
       "Bash(npm --version)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"localhost:3000 -> HTTP %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(npm install *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(sips -g pixelWidth -g pixelHeight profile.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/suhairsayed/Documents/Portfolio/public/profile.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/suhairsayed/Documents/Portfolio/profile.jpg)",
+      "Bash(curl -s http://localhost:3000 -o /tmp/claude-501/-Users-suhairsayed-Documents-Portfolio/01692495-ea4e-47bf-bc71-a80d921b1f50/scratchpad/page.html)",
+      "Read(//tmp/claude-501/-Users-suhairsayed-Documents-Portfolio/01692495-ea4e-47bf-bc71-a80d921b1f50/scratchpad/**)",
+      "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"import PIL; print\\('PIL ready', PIL.__version__\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(mkdir -p public/work/branding public/work/content-strategy public/work/performance-marketing public/work/social-media-marketing)",
+      "Bash(cp \"work samples/branding/IMG_5739.jpg\" public/work/branding/1.jpg)",
+      "Bash(cp \"work samples/branding/IMG_5740.jpg\" public/work/branding/2.jpg)",
+      "Bash(cp \"work samples/content strategy/IMG_5741.jpg\" public/work/content-strategy/1.jpg)",
+      "Bash(cp \"work samples/content strategy/IMG_5742.jpg\" public/work/content-strategy/2.jpg)",
+      "Bash(npx next *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"console.log\\(require\\('lucide-react/package.json'\\).version\\)\")",
+      "Bash(node -e \"const l=require\\('lucide-react'\\); ['Clock','Plus','Copy','Zap'].forEach\\(n=>console.log\\(n, typeof l[n]\\)\\)\")",
+      "Bash(node -e \"try{require.resolve\\('@radix-ui/react-slot'\\);console.log\\('radix-slot: yes'\\)}catch{console.log\\('radix-slot: NO'\\)}; try{require.resolve\\('class-variance-authority'\\);console.log\\('cva: yes'\\)}catch{console.log\\('cva: NO'\\)}\")",
+      "Bash(git config *)"
     ]
   }
 }
