@@ -27,9 +27,9 @@ export const CursorDot = () => {
     };
 
     const loop = () => {
-      // Light easing so the dot glides smoothly behind the cursor.
-      x += (targetX - x) * 0.2;
-      y += (targetY - y) * 0.2;
+      // Tight easing so the dot tracks closely — it *is* the cursor now.
+      x += (targetX - x) * 0.5;
+      y += (targetY - y) * 0.5;
       dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
       raf = requestAnimationFrame(loop);
     };
@@ -47,7 +47,7 @@ export const CursorDot = () => {
     <div
       ref={dotRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[9999] h-2.5 w-2.5 rounded-full bg-white opacity-0 mix-blend-difference"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] h-4 w-4 rounded-full bg-white opacity-0"
     />
   );
 };

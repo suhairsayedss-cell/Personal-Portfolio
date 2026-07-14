@@ -14,6 +14,20 @@ body {
   overflow-x: hidden;
 }
 
+/* Soft scroll-snap: the hero's VISION / STRATEGY / IMPACT frames gently settle
+   to centre. Only those frames define snap points (see .content-section below),
+   so the rest of the page scrolls freely. */
+html {
+  scroll-snap-type: y proximity;
+}
+
+/* Custom cursor: hide the native pointer everywhere; the white dot is the cursor. */
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
@@ -64,6 +78,8 @@ body {
   justify-content: center;
   text-align: center;
   padding: 0 1.5rem;
+  /* Gently lock each title to centre while scrolling through the hero. */
+  scroll-snap-align: center;
 }
 
 /* Big gradient title */
@@ -176,7 +192,7 @@ body {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 60;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,7 +216,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #c084fc, #60a5fa, #ff4b42);
+  background: linear-gradient(90deg, #ff7e4d, #ff4b42, #dd3f32);
   transition: width 0.1s linear;
 }
 

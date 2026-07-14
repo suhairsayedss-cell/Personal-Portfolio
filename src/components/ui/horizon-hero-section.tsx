@@ -19,7 +19,6 @@ export const Component = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  const scrollProgressRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const smoothCameraPos = useRef({ x: 0, y: 30, z: 100 });
@@ -455,12 +454,9 @@ export const Component = () => {
     if (!isReady) return;
 
     // Set initial states to prevent flash
-    gsap.set(
-      [menuRef.current, titleRef.current, subtitleRef.current, scrollProgressRef.current],
-      {
-        visibility: "visible",
-      }
-    );
+    gsap.set([menuRef.current, titleRef.current, subtitleRef.current], {
+      visibility: "visible",
+    });
 
     const tl = gsap.timeline();
 
@@ -503,20 +499,6 @@ export const Component = () => {
           ease: "power3.out",
         },
         "-=0.8"
-      );
-    }
-
-    // Animate scroll indicator
-    if (scrollProgressRef.current) {
-      tl.from(
-        scrollProgressRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          duration: 1,
-          ease: "power2.out",
-        },
-        "-=0.5"
       );
     }
 
@@ -619,17 +601,6 @@ export const Component = () => {
         <div ref={subtitleRef} className="hero-subtitle cosmos-subtitle">
           <p className="subtitle-line">Beyond the brief,</p>
           <p className="subtitle-line">lies the story worth telling</p>
-        </div>
-      </div>
-
-      {/* Scroll progress indicator */}
-      <div ref={scrollProgressRef} className="scroll-progress" style={{ visibility: "hidden" }}>
-        <div className="scroll-text">SCROLL</div>
-        <div className="progress-track">
-          <div className="progress-fill" style={{ width: `${scrollProgress * 100}%` }} />
-        </div>
-        <div className="section-counter">
-          {String(currentSection).padStart(2, "0")} / {String(totalSections).padStart(2, "0")}
         </div>
       </div>
 

@@ -28,7 +28,16 @@
       "Bash(node -e \"console.log\\(require\\('lucide-react/package.json'\\).version\\)\")",
       "Bash(node -e \"const l=require\\('lucide-react'\\); ['Clock','Plus','Copy','Zap'].forEach\\(n=>console.log\\(n, typeof l[n]\\)\\)\")",
       "Bash(node -e \"try{require.resolve\\('@radix-ui/react-slot'\\);console.log\\('radix-slot: yes'\\)}catch{console.log\\('radix-slot: NO'\\)}; try{require.resolve\\('class-variance-authority'\\);console.log\\('cva: yes'\\)}catch{console.log\\('cva: NO'\\)}\")",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(git checkout *)",
+      "Bash(git merge *)",
+      "Bash(git stash *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(brew --version)",
+      "Bash(git --version)",
+      "Bash(git remote *)",
+      "Bash(git ls-remote *)"
     ]
   }
 }

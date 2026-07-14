@@ -130,7 +130,7 @@ function RevealImageList() {
           dots | diagonal-stripes | grid | horizontal-lines | vertical-lines | checkerboard */}
       <BGPattern variant="grid" mask="fade-edges" size={40} fill="rgba(255,255,255,0.06)" />
 
-      <div className="relative mx-auto max-w-5xl px-6 py-28 md:py-36">
+      <div className="relative mx-auto max-w-5xl px-6 pb-28 pt-8 md:pb-36 md:pt-12">
         {/* Section label — same style as the Clients section */}
         <p className="mb-16 text-center text-lg uppercase tracking-[0.35em] text-foreground/40">
           What I do
