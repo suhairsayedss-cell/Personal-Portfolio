@@ -44,7 +44,10 @@ const socialLinks = [
 
 // Closing CTA: a closing line, the profile / contact card, then social links.
 export const CtaSection = () => (
-  <section className="relative z-20 w-full overflow-hidden bg-background px-6 pb-28 pt-28 md:pt-32">
+  <section
+    id="contact"
+    className="relative z-20 w-full scroll-mt-24 overflow-hidden bg-background px-6 pb-28 pt-28 md:pt-32"
+  >
     <DottedSurface />
     <div className="relative z-10 mx-auto max-w-4xl">
       <h2 className="mx-auto mb-16 max-w-3xl text-center text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">

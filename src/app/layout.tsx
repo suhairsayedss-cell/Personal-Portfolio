@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import CursorDot from "@/components/ui/cursor-dot";
 import ScrollProgress from "@/components/ui/scroll-progress";
+import NavBar from "@/components/ui/nav-bar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NavBar />
         {children}
         <ScrollProgress />
         <CursorDot />

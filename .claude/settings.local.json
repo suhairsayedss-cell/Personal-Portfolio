@@ -37,7 +37,9 @@
       "Bash(brew --version)",
       "Bash(git --version)",
       "Bash(git remote *)",
-      "Bash(git ls-remote *)"
+      "Bash(git ls-remote *)",
+      "Bash(git push *)",
+      "Bash(echo \"=== exit: $? ===\")"
     ]
   }
 }

@@ -86,7 +86,10 @@ const itemVariants: Variants = {
 
 export const CaseStudiesSection = () => {
   return (
-    <section className="relative z-20 w-full overflow-hidden bg-background text-foreground">
+    <section
+      id="work"
+      className="relative z-20 w-full scroll-mt-24 overflow-hidden bg-background text-foreground"
+    >
       {/* No section title — flows straight on from "Brands I've worked with". */}
       <div className="mx-auto max-w-6xl px-6 py-24 md:py-28">
         <motion.div

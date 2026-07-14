@@ -45,7 +45,8 @@ const MinimalistHeroDemo = () => {
   ];
 
   return (
-    <MinimalistHero
+    <div id="about" className="scroll-mt-24">
+      <MinimalistHero
       // z-30 lifts this above the hero's fixed canvas/overlays AND above the
       // quote section below, so the circle's glow can bleed past the section
       // edge and fade over the seam instead of being clipped.
@@ -71,7 +72,8 @@ const MinimalistHeroDemo = () => {
       overlayText={{ part1: "make it", part2: "matter." }}
       socialLinks={socialLinks}
       locationText="Based in Exeter, UK."
-    />
+      />
+    </div>
   );
 };
 
