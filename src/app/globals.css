@@ -2,10 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Design tokens — Suhair Sayed portfolio
+   Palette, type and motion from the design brief (§1.2, §1.3, §1.5).
+   ========================================================================== */
+
 :root {
-  /* Space-separated RGB channels so Tailwind can apply /opacity modifiers */
-  --background: 5 6 10;
-  --foreground: 237 237 237;
+  /* Colours (brief §1.2) */
+  --cream: #f7f1ed;
+  --ink: #242424;
+  --yellow: #ffe862;
+  --yellow-deep: #ffd640;
+  --frame: #acacac;
+  --muted: #636363;
+  --inactive: #c8c3bf;
+  --signature: #e8763a;
+
+  /* Motion (brief §1.5) */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --hover: 0.4s;
+
+  /* Frame inset: 5% desktop, 16px mobile (set in media query below) */
+  --frame-inset: 5%;
+
+  color-scheme: light;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --frame-inset: 16px;
+  }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html,
@@ -14,24 +44,53 @@ body {
   overflow-x: hidden;
 }
 
-/* Soft scroll-snap: the hero's VISION / STRATEGY / IMPACT frames gently settle
-   to centre. Only those frames define snap points (see .content-section below),
-   so the rest of the page scrolls freely. */
 html {
-  scroll-snap-type: y proximity;
+  /* Lenis drives scrolling; keep native fallback smooth too */
+  scroll-behavior: smooth;
 }
 
-/* Custom cursor: hide the native pointer everywhere; the white dot is the cursor. */
-*,
-*::before,
-*::after {
-  cursor: none !important;
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
-  color: rgb(var(--foreground));
-  background: rgb(var(--background));
-  font-family: var(--font-geist-sans), system-ui, Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  font-family: var(--font-body), system-ui, Arial, Helvetica, sans-serif;
+  letter-spacing: -0.02em; /* body -2% */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   Typography helpers
+   ========================================================================== */
+
+.font-display {
+  font-family: var(--font-display), "Archivo", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.03em; /* display -3% */
+  line-height: 1;
+  font-weight: 800;
+  font-stretch: 125%;
+}
+
+.font-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 @layer utilities {
@@ -41,404 +100,147 @@ body {
 }
 
 /* ==========================================================================
-   Horizon hero section
-   Dark, futuristic hero with a Three.js starfield background and three
-   scroll-driven title frames (VISION / STRATEGY / IMPACT).
+   Textures
    ========================================================================== */
 
-.hero-container {
-  position: relative;
-  width: 100%;
-  color: #fff;
-  z-index: 2;
+/* Graph-paper grid — faint square grid, low contrast, fades out near the
+   bottom via a mask (brief §1.4). */
+.graph-paper {
+  background-image:
+    linear-gradient(to right, rgba(36, 36, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 36, 36, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  background-position: center top;
 }
 
-/* The Three.js canvas sits fixed behind everything while the text frames
-   scroll over it. */
-.hero-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: block;
-  z-index: 1;
-  pointer-events: none;
+.graph-paper-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 92%);
 }
 
-/* Each full-screen frame */
-.hero-content,
-.content-section {
-  position: relative;
-  z-index: 2;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 1.5rem;
-  /* Gently lock each title to centre while scrolling through the hero. */
-  scroll-snap-align: center;
-}
-
-/* Big gradient title */
-.hero-title {
-  margin: 0;
-  font-size: clamp(4rem, 16vw, 13rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  /* Crisp, flat red-orange fill — no glow (matches the Horizon reference) */
-  color: #ff4b42;
-  /* Smoothly ease the hover enlarge + glow in and out */
-  transition: transform 0.4s ease, text-shadow 0.4s ease;
-}
-
-/* On hover: very slightly enlarge and add a soft glow (like the template) */
-.hero-title:hover {
-  transform: scale(1.04);
-  text-shadow:
-    0 0 25px rgba(255, 75, 66, 0.55),
-    0 0 55px rgba(255, 60, 40, 0.35);
-}
-
-/* About-section overlay words reuse the exact hero-title hover for a
-   consistent enlarge + glow interaction. inline-block so the text scales
-   around its own center rather than the full column width. */
-.overlay-title {
-  display: inline-block;
-  transition: transform 0.4s ease, text-shadow 0.4s ease;
-}
-
-.overlay-title:hover {
-  transform: scale(1.04);
-}
-
-/* About-section keywords: slightly bold, with a hover accent on the name
-   and custom Apple-emoji cursors on strategist / coffee / playlist. */
-.kw {
-  font-weight: 600;
-}
-
-.kw-name {
-  font-weight: 600;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-.kw-name:hover {
-  color: #ff4b42;
-  text-shadow: 0 0 18px rgba(255, 75, 66, 0.5);
-}
-
-/* Each letter is its own inline-block so GSAP can stagger them in.
-   Solid color and text-shadow inherit from .hero-title, so no per-letter
-   treatment is needed here. */
-.title-char {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-.hero-subtitle {
-  margin-top: 1.75rem;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: clamp(1rem, 2vw, 1.4rem);
-}
-
-.subtitle-line {
-  margin: 0.2rem 0;
-}
-
-/* Left-side vertical label */
-.side-menu {
-  position: fixed;
-  left: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.menu-icon {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.menu-icon span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.vertical-text {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  letter-spacing: 0.35em;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Bottom-center scroll / progress indicator */
-.scroll-progress {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 60;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.scroll-text {
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.progress-track {
-  width: 200px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #ff7e4d, #ff4b42, #dd3f32);
-  transition: width 0.1s linear;
-}
-
-.section-counter {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-@media (max-width: 640px) {
-  .side-menu {
-    left: 1rem;
-  }
-  .progress-track {
-    width: 130px;
-  }
-}
-
-/* ==========================================================================
-   Quote section (mouse-beam + typewriter)
-   ========================================================================== */
-
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Typewriter blinking caret (red-orange to tie into the beam) */
-.type-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.05em;
-  margin-left: 3px;
-  vertical-align: text-bottom;
-  background: #ff4b42;
-  animation: blink 0.9s infinite;
-}
-
-/* Typed phrase accent (purple) */
-.typed-accent {
-  color: #c084fc;
-  font-weight: 600;
-}
-
-/* Ambient glow that sits BELOW the section seam and blooms in gently.
-   The About section above is opaque (z-30) and paints over anything that
-   reaches up to the seam, so keeping the glow entirely below the seam — and
-   fully transparent at its top edge — leaves the seam a smooth pure black
-   (red-orange melting into purple lower down, around the quote content). */
-.quote-glow-top {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
-  height: 560px;
-  /* Vertical radius = half the height, so the glow fades fully to transparent
-     AT the top/bottom edges — no rectangular hard line. Its top edge sits well
-     below the seam, so the transition into black stays clean. */
-  background: radial-gradient(
-    ellipse 780px 280px at 50% 50%,
-    rgba(255, 75, 66, 0.14) 0%,
-    rgba(168, 85, 247, 0.1) 48%,
-    transparent 100%
+/* Stepped pixel-staircase edge: a wide centre block flanked by shorter steps.
+   Applied to the bottom of a cream layer so the colour beneath shows through
+   the notches (brief §1.4). */
+.stepped-edge-bottom {
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - 44px),
+    82% calc(100% - 44px), 82% calc(100% - 28px),
+    64% calc(100% - 28px), 64% calc(100% - 14px),
+    36% calc(100% - 14px), 36% calc(100% - 28px),
+    18% calc(100% - 28px), 18% calc(100% - 44px),
+    0 calc(100% - 44px)
   );
-  pointer-events: none;
-  z-index: 0;
 }
 
-/* Faint decorative grid */
-.quote-grid-bg {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.18) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
-  background-size: 3rem 3rem;
-  opacity: 0.12;
-  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
-  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+/* Torn / dry-brush edge for the dark section bottom (brief §1.4). A rough,
+   irregular lower border approximated with many small notches. */
+.torn-edge-bottom {
+  clip-path: polygon(
+    0 0, 100% 0, 100% 94%,
+    96% 97%, 92% 92%, 88% 98%, 84% 93%, 80% 99%, 76% 94%,
+    72% 98%, 68% 93%, 64% 99%, 60% 94%, 56% 97%, 52% 92%,
+    48% 98%, 44% 93%, 40% 99%, 36% 94%, 32% 98%, 28% 93%,
+    24% 99%, 20% 94%, 16% 97%, 12% 92%, 8% 98%, 4% 93%, 0 98%
+  );
 }
 
-/* Soft edge fade on the bordered box */
-.quote-box-mask {
-  -webkit-mask-image: radial-gradient(800rem 96rem at center, white, transparent);
-  mask-image: radial-gradient(800rem 96rem at center, white, transparent);
+/* White hand-painted brush stroke behind the portrait (brief §Section 2).
+   Placeholder: an organic white shape with a slightly rough edge via mask. */
+.brush-stroke {
+  background: #ffffff;
+  border-radius: 48% 52% 46% 54% / 60% 58% 42% 40%;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 60%, #000 55%, rgba(0, 0, 0, 0.6) 72%, transparent 86%);
+  mask-image: radial-gradient(120% 90% at 50% 60%, #000 55%, rgba(0, 0, 0, 0.6) 72%, transparent 86%);
 }
 
-/* ==========================================================================
-   Clients section (flat white logos)
-   ========================================================================== */
-
-/* Flat white logo icons. Rest slightly dimmed; on hover they brighten and
-   gently enlarge — the same enlarge interaction used on "make it matter". */
-.client-logo {
-  max-height: 2.75rem;
-  width: auto;
-  max-width: 170px;
-  object-fit: contain;
-  opacity: 0.65;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.client-logo:hover {
-  opacity: 1;
-  transform: scale(1.1);
+/* A cream wavy line that draws across the dark statement section. */
+.wavy-line path {
+  stroke: var(--cream);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
 }
 
 /* ==========================================================================
-   CTA "Available for work" status dot — a bright green blink with a pulsing glow
+   Rolling-letter hover (brief §1.6.1)
    ========================================================================== */
-@keyframes statusBlink {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow:
-      0 0 6px 2px rgba(34, 197, 94, 0.9),
-      0 0 14px 5px rgba(34, 197, 94, 0.5);
-  }
-  50% {
-    opacity: 0.5;
-    box-shadow: 0 0 3px 1px rgba(34, 197, 94, 0.45);
-  }
-}
 
-.status-dot {
-  animation: statusBlink 1.3s ease-in-out infinite;
-}
-
-/* ==========================================================================
-   Top navigation bar — full options + name, collapses to "MGS" on scroll
-   ========================================================================== */
-.nav-root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 70;
-  display: flex;
-  justify-content: center;
-  /* only the pill itself is clickable; the empty area lets hero clicks through */
-  pointer-events: none;
-}
-
-.nav-pill {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  max-width: 92vw;
-  background: #000;
-  color: #fff;
-  padding: 0.62rem 1.35rem;
-  border-radius: 0 0 1.1rem 1.1rem;
-  box-shadow: 0 11px 28px -14px rgba(0, 0, 0, 0.8);
-  white-space: nowrap;
-  transition: padding 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-group {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  max-width: 340px;
+.roll {
+  display: inline-flex;
   overflow: hidden;
-  transition:
-    max-width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s ease,
-    margin 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.nav-left {
-  margin-right: 1.4rem;
-}
-.nav-right {
-  margin-left: 1.4rem;
+  vertical-align: top;
 }
 
-.nav-link {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  transition: color 0.25s ease;
-}
-.nav-link:hover {
-  color: #fff;
-}
-.nav-resume {
-  font-weight: 700;
-  color: #fff;
+.roll-letter {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
 }
 
-.nav-brand {
-  font-size: 1.18rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: #fff;
+.roll-letter > span {
+  display: block;
+  transition: transform 0.8s var(--ease);
+  transition-delay: calc(var(--i, 0) * 30ms);
 }
 
-/* Shrunk: collapse the option groups, leaving just the initials. */
-.nav-pill.is-shrunk .nav-group {
-  max-width: 0;
-  margin: 0;
-  opacity: 0;
+.roll-letter > span > span {
+  display: block;
+  height: 1em;
 }
 
-@media (max-width: 768px) {
-  .nav-group {
-    gap: 0.85rem;
+.roll:hover .roll-letter > span,
+.roll-active .roll-letter > span {
+  transform: translateY(-50%);
+}
+
+/* Preserve whitespace between rolling words */
+.roll-space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+/* ==========================================================================
+   Pill-fill hover (brief §1.6.2)
+   ========================================================================== */
+
+.pill-fill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.pill-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--hover) var(--ease);
+  z-index: -1;
+}
+
+.pill-fill:hover::before {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   Accessibility — reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  .nav-left {
-    margin-right: 0.9rem;
-  }
-  .nav-right {
-    margin-left: 0.9rem;
-  }
-  .nav-link {
-    font-size: 0.75rem;
-  }
-  .nav-brand {
-    font-size: 0.9rem;
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

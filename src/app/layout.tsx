@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Archivo, Inter_Tight } from "next/font/google";
 import "./globals.css";
-import CursorDot from "@/components/ui/cursor-dot";
-import ScrollProgress from "@/components/ui/scroll-progress";
-import NavBar from "@/components/ui/nav-bar";
+import SmoothScroll from "@/components/portfolio/SmoothScroll";
+import FrameLines from "@/components/portfolio/FrameLines";
+import LoadIntro from "@/components/portfolio/LoadIntro";
+import MenuPill from "@/components/portfolio/MenuPill";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+// Display: Archivo (wide/heavy free stand-in for Trobika). Body: Inter Tight
+// (free stand-in for Aeonik). Both variable fonts via next/font/google.
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-display",
+  display: "swap",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Mohamed Gous Sayed",
-  description: "Personal portfolio of Mohamed Gous Sayed",
+  title: "Suhair Sayed — Content Strategist",
+  description:
+    "Portfolio of Suhair Sayed, a content strategist and digital marketer based in Exeter, UK.",
 };
 
 export default function RootLayout({
@@ -28,13 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NavBar />
+      <body className={`${archivo.variable} ${interTight.variable} antialiased`}>
+        <SmoothScroll />
+        <FrameLines />
         {children}
-        <ScrollProgress />
-        <CursorDot />
+        <MenuPill />
+        <LoadIntro />
       </body>
     </html>
   );

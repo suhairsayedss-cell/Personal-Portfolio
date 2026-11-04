@@ -1,23 +1,21 @@
-import { DemoOne } from "@/components/ui/demo";
-import MinimalistHeroDemo from "@/components/ui/minimalist-hero-demo";
-import QuoteSection from "@/components/ui/quote-section";
-import ClientsSection from "@/components/ui/clients-section";
-import CaseStudiesSection from "@/components/ui/case-studies-section";
-import { RevealImageList } from "@/components/ui/reveal-images";
-import TestimonialsSection from "@/components/ui/testimonial";
-import CtaSection from "@/components/ui/cta-section";
+import Hero from "@/components/portfolio/sections/Hero";
+import PortraitReveal from "@/components/portfolio/sections/PortraitReveal";
+import Statement from "@/components/portfolio/sections/Statement";
+import Services from "@/components/portfolio/sections/Services";
+import SelectedWork from "@/components/portfolio/sections/SelectedWork";
+import About from "@/components/portfolio/sections/About";
+import Footer from "@/components/portfolio/sections/Footer";
 
 export default function Home() {
   return (
-    <>
-      <DemoOne />
-      <MinimalistHeroDemo />
-      <QuoteSection />
-      <RevealImageList />
-      <ClientsSection />
-      <CaseStudiesSection />
-      <TestimonialsSection />
-      <CtaSection />
-    </>
+    <main>
+      <Hero />
+      <PortraitReveal />
+      <Statement />
+      <Services />
+      <SelectedWork />
+      <About />
+      <Footer />
+    </main>
   );
 }
