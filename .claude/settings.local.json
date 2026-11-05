@@ -40,7 +40,10 @@
       "Bash(git ls-remote *)",
       "Bash(git push *)",
       "Bash(echo \"=== exit: $? ===\")",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(git commit *)",
+      "Read(//Users/suhairsayed/**)",
+      "Bash(ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=8 -T git@github.com)"
     ]
   }
 }

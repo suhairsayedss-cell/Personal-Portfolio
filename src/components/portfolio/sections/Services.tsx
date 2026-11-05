@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import ClayLayer from "../ClayLayer";
 import { services } from "@/data/content";
 
 // Services (brief §Section 4): cream, pinned. An intro line, three large
@@ -52,10 +53,16 @@ export default function Services() {
               })}
             </ul>
 
-            {/* Spinning placeholder object */}
+            {/* Spinning 3D object (motion-allowed) */}
+            <ClayLayer
+              kind="services"
+              className="pointer-events-none absolute right-[2%] top-[-16%] hidden h-[200px] w-[200px] motion-safe:md:block"
+            />
+
+            {/* Static CSS fallback — reduced motion only */}
             <motion.div
               style={{ rotate: spin }}
-              className="absolute left-[6%] top-1/2 hidden -translate-y-1/2 md:block"
+              className="absolute left-[6%] top-1/2 hidden -translate-y-1/2 motion-reduce:md:block"
             >
               <div className="h-16 w-16 rounded-[22px] bg-gradient-to-br from-yellow to-yellow-deep shadow-[0_14px_34px_rgba(0,0,0,0.18)]" />
             </motion.div>

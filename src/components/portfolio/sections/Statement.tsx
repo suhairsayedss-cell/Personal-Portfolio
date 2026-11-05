@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, useMotionValue } from "framer-motion";
 import DotGridCanvas from "../DotGridCanvas";
+import ClayLayer from "../ClayLayer";
 import { statement } from "@/data/content";
 
 const words = statement.lines.flat();
@@ -33,27 +34,23 @@ export default function Statement() {
       <div className="torn-edge-bottom sticky top-0 flex h-screen items-center justify-center overflow-hidden bg-ink">
         <DotGridCanvas variant="dark" className="absolute inset-0 h-full w-full opacity-60" />
 
-        {/* Clay-like placeholder objects */}
-        <motion.div
-          style={{ rotate: rot }}
-          className="absolute left-[12%] top-[22%] hidden md:block"
-        >
-          <div className="h-20 w-20 rounded-[28px] bg-gradient-to-br from-yellow to-yellow-deep shadow-[0_18px_40px_rgba(0,0,0,0.45)]" />
-        </motion.div>
-        <motion.div
-          style={{ rotate: rot2 }}
-          className="absolute right-[14%] top-[28%] hidden md:block"
-        >
-          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-signature to-[#c85a25] shadow-[0_18px_40px_rgba(0,0,0,0.45)]" />
-        </motion.div>
-        <motion.div
-          style={{ rotate: rot }}
-          className="absolute bottom-[18%] right-[22%] hidden md:block"
-        >
-          <div className="flex h-20 w-20 items-center justify-center rounded-[26px] bg-gradient-to-br from-[#3a3a3a] to-[#1c1c1c] shadow-[0_18px_40px_rgba(0,0,0,0.45)] ring-2 ring-yellow/70">
-            <span className="text-2xl">✎</span>
-          </div>
-        </motion.div>
+        {/* Real 3D clay objects (motion-allowed). */}
+        <ClayLayer kind="statement" className="pointer-events-none absolute inset-0 z-[5]" />
+
+        {/* Static CSS clay shapes — reduced-motion fallback only. */}
+        <div className="hidden motion-reduce:block">
+          <motion.div style={{ rotate: rot }} className="absolute left-[12%] top-[22%]">
+            <div className="h-20 w-20 rounded-[28px] bg-gradient-to-br from-yellow to-yellow-deep shadow-[0_18px_40px_rgba(0,0,0,0.45)]" />
+          </motion.div>
+          <motion.div style={{ rotate: rot2 }} className="absolute right-[14%] top-[28%]">
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-signature to-[#c85a25] shadow-[0_18px_40px_rgba(0,0,0,0.45)]" />
+          </motion.div>
+          <motion.div style={{ rotate: rot }} className="absolute bottom-[18%] right-[22%]">
+            <div className="flex h-20 w-20 items-center justify-center rounded-[26px] bg-gradient-to-br from-[#3a3a3a] to-[#1c1c1c] shadow-[0_18px_40px_rgba(0,0,0,0.45)] ring-2 ring-yellow/70">
+              <span className="text-2xl">✎</span>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Statement text */}
         <h2 className="font-body relative z-10 max-w-[90%] text-center text-[clamp(32px,6vw,80px)] font-light leading-[1.05]">
