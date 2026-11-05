@@ -16,7 +16,7 @@ export default function Signature({
 }) {
   return (
     <svg
-      viewBox="0 0 320 110"
+      viewBox="10 26 314 66"
       className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
