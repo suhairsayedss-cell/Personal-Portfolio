@@ -125,8 +125,8 @@ export const footer = {
 
 export const contact = {
   email: "suhairsayed.ss@gmail.com",
-  linkedin: "#", // TO CONFIRM
-  instagram: "#", // TO CONFIRM
+  linkedin: "https://www.linkedin.com/in/suhairsayed/",
+  instagram: "https://www.instagram.com/suhair.sayed/",
 };
 
 export const menuLinks = [
