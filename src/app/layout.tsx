@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/portfolio/SmoothScroll";
 import FrameLines from "@/components/portfolio/FrameLines";
 import LoadIntro from "@/components/portfolio/LoadIntro";
 import MenuPill from "@/components/portfolio/MenuPill";
+import GreetingCursor from "@/components/portfolio/GreetingCursor";
 
 // Display: Archivo (wide/heavy free stand-in for Trobika). Body: Inter Tight
 // (free stand-in for Aeonik). Both variable fonts via next/font/google.
@@ -39,6 +40,7 @@ export default function RootLayout({
         {children}
         <MenuPill />
         <LoadIntro />
+        <GreetingCursor />
       </body>
     </html>
   );
